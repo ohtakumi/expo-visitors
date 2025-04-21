@@ -43,7 +43,6 @@
   "staffVisitors": 12345,
   "dailyVisitors": [
     { "date": "MM-DD", "count": 100000, "staff": 2000 },
-    ・・・
   ]
 }
 ```
