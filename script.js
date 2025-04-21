@@ -1,70 +1,80 @@
-const GOAL = 28000000;
-const chartContainer = document.getElementById("visitor-chart");
-let chart;
+const GOAL = 28200000;
+let chartInstance = null;
 
-function loadData(mode) {
-  fetch(`visitors${mode}.json`)
-    .then(res => res.json())
+function loadData(type) {
+  const file = type === '速報' ? 'visitors速報.json' : 'visitors確定.json';
+
+  fetch(file)
+    .then(response => response.json())
     .then(data => {
-      updateStats(data);
-      updateChart(data);
+      updateDisplay(data);
     })
-    .catch(err => {
-      console.error("読み込みエラー:", err);
+    .catch(error => {
+      console.error('データ読み込みエラー:', error);
     });
 }
 
-function updateStats(data) {
-  const total = data.totalVisitors;
-  const staff = data.staffVisitors ?? 0;
+function updateDisplay(data) {
+  const total = data.dailyVisitors.reduce((sum, d) => sum + d.count, 0);
+  const staff = data.dailyVisitors.reduce((sum, d) => sum + d.staff, 0);
+  const updated = new Date(data.lastUpdated);
+
+  document.querySelectorAll('.selector button').forEach(button => {
+    button.addEventListener('click', () => {
+      document.querySelectorAll('.selector button').forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+    });
+  });
 
   document.getElementById("visitor-count").textContent = `${total.toLocaleString()}人`;
-  document.getElementById("staff-count").textContent = `関係者数: ${staff.toLocaleString()}人`;
-  document.getElementById("last-updated").textContent = `最終更新: ${new Date(data.lastUpdated).toLocaleString()}`;
+  document.getElementById("staff-count").textContent = `うち関係者数: ${staff.toLocaleString()}人`;
+  document.getElementById("last-updated").textContent = `最終更新: ${updated.toLocaleString()}`;
 
+  // 進捗バー
   const progress = ((total / GOAL) * 100).toFixed(2);
-  const fill = document.getElementById("progress-fill");
-  fill.style.width = `${progress}%`;
-  fill.textContent = `${progress}%`;
-}
+  const progressFill = document.getElementById("progress-fill");
+  progressFill.style.width = `${progress}%`;
+  progressFill.textContent = `${progress}%`;
 
-function updateChart(data) {
+  // グラフデータ
   const labels = data.dailyVisitors.map(d => d.date);
-  const staffData = data.dailyVisitors.map(d => d.staff || 0);
-  const generalData = data.dailyVisitors.map(d => d.count - (d.staff || 0));
+  const visitorData = data.dailyVisitors.map(d => d.count);
+  const staffData = data.dailyVisitors.map(d => d.staff);
 
-  if (chart) chart.destroy();
-
-  const canvas = document.createElement("canvas");
-  chartContainer.innerHTML = "";
-  chartContainer.appendChild(canvas);
-
-  chart = new Chart(canvas, {
-    type: "bar",
+  // グラフ描画
+  const ctx = document.getElementById("visitor-chart").querySelector("canvas");
+  if (chartInstance) chartInstance.destroy();
+  chartInstance = new Chart(ctx || createChartCanvas(), {
+    type: 'line',
     data: {
       labels,
       datasets: [
         {
-          label: "一般来場者",
-          data: generalData,
-          backgroundColor: "#42a5f5"
+          label: '来場者数',
+          data: visitorData,
+          fill: true,
+          backgroundColor: 'rgba(66, 165, 245, 0.2)',
+          borderColor: '#42a5f5',
+          tension: 0.3,
         },
         {
-          label: "関係者",
+          label: 'うち関係者数',
           data: staffData,
-          backgroundColor: "#ef5350"
+          fill: false,
+          borderColor: '#ef5350',
+          backgroundColor: 'rgba(239, 83, 80, 0.1)',
+          borderDash: [5, 5],
+          tension: 0.3,
         }
       ]
     },
     options: {
       responsive: true,
       scales: {
-        x: { stacked: true },
         y: {
-          stacked: true,
           beginAtZero: true,
           ticks: {
-            callback: val => val.toLocaleString()
+            callback: value => value.toLocaleString()
           }
         }
       }
@@ -72,12 +82,11 @@ function updateChart(data) {
   });
 }
 
-document.querySelectorAll('input[name="mode"]').forEach(input => {
-  input.addEventListener("change", e => {
-    loadData(e.target.value);
-  });
-});
+function createChartCanvas() {
+  const canvas = document.createElement("canvas");
+  document.getElementById("visitor-chart").appendChild(canvas);
+  return canvas;
+}
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadData("速報");
-});
+// 初期表示
+loadData("速報");

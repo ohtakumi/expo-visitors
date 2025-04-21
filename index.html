@@ -3,17 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>大阪・関西万博 入場者数モニター</title>
+  <title>EXPO2025 大阪・関西万博 入場者数カウンター</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
     <header>
-      <h1>大阪・関西万博 入場者数モニター</h1>
+      <h1>EXPO2025 大阪・関西万博 入場者数カウンター</h1>
       <div class="selector">
         <button onclick="loadData('速報')">速報版</button>
-        <button onclick="loadData('確定')">確定版</button>
+        <button onclick="loadData('確定')">公式版</button>
       </div>
+
+      <p class="description">
+        <strong>速報版</strong>：翌日のニュース等からの推定値<br>
+        <strong>公式版</strong>：公式サイトで発表される確定値
+      </p>
     </header>
 
     <div class="count">
@@ -24,14 +28,18 @@
     </div>
 
     <div class="progress-container">
-      <p>目標：2800万人</p>
+      <p>目標：2820万人</p>
       <div class="progress-bar">
         <div id="progress-fill" class="progress-fill"></div>
       </div>
     </div>
 
     <div id="visitor-chart" class="chart"></div>
-  </div>
+
+  <footer>
+    <p><a href="https://forms.gle/HJoUeHhpdV3XwcnQ7" class="feedback-link">ご意見フォーム</a></p>
+    <p>Copyright (C) 2025 ohtakumi All Rights Reserved.</p>
+  </footer>  
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>
