@@ -184,7 +184,7 @@ footer a:hover {
   #visitor-chart {
     padding: 15px; /* 内側の余白を少し減らす */
     max-width: 100%; /* 最大幅を解除して画面幅に合わせる */
-    margin: 0; /* 左右の余白をなくす */
+    margin: 0 10px 20px 0; /* 上: 0, 右: 10px, 下: 20px, 左: 0 */
     display: block; /* フレックスボックスを解除 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 影を少し控えめに */
   }
