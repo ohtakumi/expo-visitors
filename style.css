@@ -192,7 +192,9 @@ footer a:hover {
   }
 
   .chart canvas {
-    height: 250px; /* グラフの高さを少し小さく */
+    width: 100%; /* キャンバスを親要素に合わせる */
+    max-width: 100%; /* スマホ画面幅に合わせる */
+    height: auto; /* 高さを自動調整 */
   }
 
   #visitor-count {
