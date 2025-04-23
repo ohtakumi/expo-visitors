@@ -13,6 +13,14 @@ header h1 {
   color: #0d47a1; /* 深い青、テクノロジー感 */
 }
 
+header p {
+  text-align: center; /* 中央揃え */
+  font-size: 1rem; /* 標準的な文字サイズ */
+  color: #555; /* 落ち着いたグレー */
+  line-height: 1.6; /* 行間を広げて読みやすく */
+  margin: 10px 20px; /* 上下に余白を追加し、左右にスペースを確保 */
+}
+
 .selector {
   display: flex;
   justify-content: center;
