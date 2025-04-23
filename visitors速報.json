@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-04-22T11:00:00",
+  "lastUpdated": "2025-04-23T11:30:00",
   "dailyVisitors": [
       { "date": "04-13", "count": 141000, "staff": 22000 },
       { "date": "04-14", "count": 68000, "staff": 17000 },
@@ -9,6 +9,7 @@
       { "date": "04-18", "count": 91000, "staff": 15000 },
       { "date": "04-19", "count": 104000, "staff": 15000 },
       { "date": "04-20", "count": 92000, "staff": 16000 },
-      { "date": "04-21", "count": 96000, "staff": 17000 }
+      { "date": "04-21", "count": 96000, "staff": 17000 },
+      { "date": "04-22", "count": 100000, "staff": 17000 }
   ]
 }
