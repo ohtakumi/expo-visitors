@@ -118,6 +118,13 @@ header p {
   height: 300px; /* 固定の高さを設定 */
 }
 
+.chart-description {
+  text-align: center; /* 中央揃え */
+  font-size: 0.9rem; /* 少し小さめの文字サイズ */
+  color: #555; /* 落ち着いたグレー */
+  margin-top: 10px; /* グラフとの間に余白を追加 */
+}
+
 #visitor-count {
   font-size: 3rem; /* 文字を大きく */
   font-weight: bold; /* 太字にして強調 */
