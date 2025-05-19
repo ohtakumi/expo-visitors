@@ -31,7 +31,7 @@ function updateDisplay(data) {
   document.getElementById("last-updated").textContent = `最終更新: ${updated.toLocaleString()}`;
 
   // 進捗バー
-  const progress = ((total / GOAL) * 100).toFixed(2);
+  const progress = (((total - staff ) / GOAL) * 100).toFixed(2);
   const progressFill = document.getElementById("progress-fill");
   progressFill.style.width = `${progress}%`;
   progressFill.textContent = `${progress}%`;
