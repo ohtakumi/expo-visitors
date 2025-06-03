@@ -120,15 +120,18 @@ header p {
 
 .chart-description {
   text-align: center;
-  font-size: 1rem; /* 少し大きめの文字サイズに */
-  color: #0d47a1; /* 深い青で強調 */
-  margin-top: 16px; /* 余白を少し増やす */
-  font-weight: bold; /* 太字で強調 */
-  background: #e3f2fd; /* 薄い青背景で目立たせる */
-  border-radius: 8px; /* 角を丸く */
-  padding: 10px 16px; /* 内側に余白 */
-  display: inline-block;
-  box-shadow: 0 2px 8px rgba(13, 71, 161, 0.08); /* 軽い影 */
+  font-size: 1rem;
+  color: #0d47a1;
+  margin-top: 16px;
+  font-weight: bold;
+  background: #e3f2fd;
+  border-radius: 8px;
+  padding: 10px 16px;
+  display: block; /* ここをblockに変更 */
+  margin-left: auto;  /* 左右中央寄せ */
+  margin-right: auto; /* 左右中央寄せ */
+  box-shadow: 0 2px 8px rgba(13, 71, 161, 0.08);
+  max-width: 90%; /* スマホでも中央で見やすく */
 }
 
 #visitor-count {
