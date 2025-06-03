@@ -129,7 +129,6 @@ header p {
   display: block; /* ここをblockに変更 */
   margin-left: auto;  /* 左右中央寄せ */
   margin-right: auto; /* 左右中央寄せ */
-  box-shadow: 0 2px 8px rgba(13, 71, 161, 0.08);
   max-width: 90%; /* スマホでも中央で見やすく */
 }
 
