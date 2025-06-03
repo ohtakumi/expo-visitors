@@ -126,7 +126,6 @@ header p {
   font-weight: bold;
   border-radius: 8px;
   padding: 10px 16px;
-  display: block; /* ここをblockに変更 */
   margin-left: auto;  /* 左右中央寄せ */
   margin-right: auto; /* 左右中央寄せ */
   max-width: 90%; /* スマホでも中央で見やすく */
