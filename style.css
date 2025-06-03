@@ -119,10 +119,16 @@ header p {
 }
 
 .chart-description {
-  text-align: center; /* 中央揃え */
-  font-size: 0.9rem; /* 少し小さめの文字サイズ */
-  color: #555; /* 落ち着いたグレー */
-  margin-top: 10px; /* グラフとの間に余白を追加 */
+  text-align: center;
+  font-size: 1rem; /* 少し大きめの文字サイズに */
+  color: #0d47a1; /* 深い青で強調 */
+  margin-top: 16px; /* 余白を少し増やす */
+  font-weight: bold; /* 太字で強調 */
+  background: #e3f2fd; /* 薄い青背景で目立たせる */
+  border-radius: 8px; /* 角を丸く */
+  padding: 10px 16px; /* 内側に余白 */
+  display: inline-block;
+  box-shadow: 0 2px 8px rgba(13, 71, 161, 0.08); /* 軽い影 */
 }
 
 #visitor-count {
