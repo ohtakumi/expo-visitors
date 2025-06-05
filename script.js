@@ -90,12 +90,15 @@ function showCalendarTable() {
 
         // 10月13日までで打ち切り
         if (mm === "10" && dd === "13") {
-          let dateLabel = `<div style="font-size:0.9em;color:#d84315;font-weight:bold;">${month}月</div>
-            <div style="font-size:1.1em;font-weight:bold;">${Number(dd)}</div>`;
+          let dateLabel = `
+            <div style="display:flex;align-items:center;justify-content:center;">
+              <span style="color:#d84315;font-weight:bold;font-size:0.9em;margin-right:4px;">${month}月</span>
+              <span style="font-size:1.1em;font-weight:bold;flex:1;text-align:center;">${Number(dd)}</span>
+            </div>`;
           calendar[week][day] = `
             ${dateLabel}
             <div style="font-size:1.5em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
-            <div style="font-size:0.95em;color:#888;">関係者数 ${d.staff.toLocaleString()}</div>
+            <div style="font-size:0.95em;color:#888;">うち関係者数 ${d.staff.toLocaleString()}</div>
           `;
           return true; // someでループ終了
         }
@@ -103,8 +106,11 @@ function showCalendarTable() {
         // 4月の場合は13日から、それ以外は1日から月を強調
         let dateLabel = '';
         if ((mm === "04" && dd === "13") || (dd === "01" && month !== prevMonth && mm !== "04")) {
-          dateLabel = `<div style="font-size:0.9em;color:#d84315;font-weight:bold;">${month}月</div>
-            <div style="font-size:1.1em;font-weight:bold;">${Number(dd)}</div>`;
+          dateLabel = `
+            <div style="display:flex;align-items:center;justify-content:center;">
+              <span style="color:#d84315;font-weight:bold;font-size:0.9em;margin-right:4px;">${month}月</span>
+              <span style="font-size:1.1em;font-weight:bold;flex:1;text-align:center;">${Number(dd)}</span>
+            </div>`;
           prevMonth = month;
         } else {
           dateLabel = `<div style="font-size:1.1em;font-weight:bold;">${Number(dd)}</div>`;
