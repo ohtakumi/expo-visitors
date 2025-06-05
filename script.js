@@ -31,6 +31,7 @@ function loadData(type) {
   }
 
   if (type === 'カレンダー') {
+    chartArea.style.background = "none"; // カレンダー時は背景を消す
     showCalendarTable();
     return;
   }
