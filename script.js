@@ -42,16 +42,16 @@ function showCalendarTable() {
     .then(response => response.json())
     .then(data => {
       const daily = data.dailyVisitors;
-      const year = 2025; // 固定
-      const calendar = Array(12).fill(null).map(() => Array(7).fill('')); // 12週分に拡張
+      const year = 2025;
+      const calendar = Array(12).fill(null).map(() => Array(7).fill(''));
       let week = 0;
       let prevMonth = null;
       let started = false;
 
-      daily.forEach((d, i) => {
+      daily.some((d, i) => {
         const [mm, dd] = d.date.split('-');
         const dateObj = new Date(`${year}-${mm}-${dd}`);
-        const day = dateObj.getDay(); // 0:日, 1:月, ...
+        const day = dateObj.getDay();
         const month = Number(mm);
 
         // 4月13日から開始
@@ -60,29 +60,30 @@ function showCalendarTable() {
           week = 0;
         }
 
+        // 4月13日以前はスキップ
+        if (!started) return false;
+
         // 10月13日までで打ち切り
         if (mm === "10" && dd === "13") {
-          // 10月13日も含めて表示
-          let dateLabel = `<div style="font-size:1.1em;font-weight:bold;">${Number(dd)}</div>`;
+          let dateLabel = `<div style="font-size:0.9em;color:#d84315;font-weight:bold;">${month}月</div>
+            <div style="font-size:1.1em;font-weight:bold;">${Number(dd)}</div>`;
           calendar[week][day] = `
             ${dateLabel}
             <div style="font-size:1.5em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
             <div style="font-size:0.95em;color:#888;">関係者数 ${d.staff.toLocaleString()}</div>
           `;
-          return false; // forEachを終了
+          return true; // someでループ終了
         }
 
         // 4月の場合は13日から、それ以外は1日から月を強調
         let dateLabel = '';
         if ((mm === "04" && dd === "13") || (dd === "01" && month !== prevMonth && mm !== "04")) {
-          dateLabel = `<div style="font-size:0.9em;color:#d84315;font-weight:bold;">${month}月</div><div style="font-size:1.1em;font-weight:bold;">${Number(dd)}</div>`;
+          dateLabel = `<div style="font-size:0.9em;color:#d84315;font-weight:bold;">${month}月</div>
+            <div style="font-size:1.1em;font-weight:bold;">${Number(dd)}</div>`;
           prevMonth = month;
         } else {
           dateLabel = `<div style="font-size:1.1em;font-weight:bold;">${Number(dd)}</div>`;
         }
-
-        // 4月13日以前はスキップ
-        if (!started) return;
 
         if (i === 0) week = 0;
         else if (day === 0 && i !== 0) week++;
@@ -91,22 +92,31 @@ function showCalendarTable() {
           <div style="font-size:1.5em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
           <div style="font-size:0.95em;color:#888;">関係者数 ${d.staff.toLocaleString()}</div>
         `;
+        return false;
       });
 
-      // テーブルHTML生成
+      // テーブルHTML生成（枠線をthead,tbody,td,thすべてに適用）
       let html = `
-        <table class="calendar-table" style="margin:0 auto;max-width:95%;border-collapse:collapse;text-align:center;">
+        <table class="calendar-table" style="margin:0 auto;width:100%;max-width:600px;border-collapse:collapse;text-align:center;">
           <thead>
             <tr>
-              <th>日</th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
+              <th style="border:1px solid #ccc;padding:6px;">日</th>
+              <th style="border:1px solid #ccc;padding:6px;">月</th>
+              <th style="border:1px solid #ccc;padding:6px;">火</th>
+              <th style="border:1px solid #ccc;padding:6px;">水</th>
+              <th style="border:1px solid #ccc;padding:6px;">木</th>
+              <th style="border:1px solid #ccc;padding:6px;">金</th>
+              <th style="border:1px solid #ccc;padding:6px;">土</th>
             </tr>
           </thead>
           <tbody>
       `;
       for (let w = 0; w < calendar.length; w++) {
+        // すべて空ならスキップ
+        if (calendar[w].every(cell => cell === '')) continue;
         html += '<tr>';
         for (let d = 0; d < 7; d++) {
-          html += `<td style="padding:8px 4px;border:1px solid #ccc;min-width:60px;vertical-align:top;">${calendar[w][d] || ''}</td>`;
+          html += `<td style="padding:8px 4px;border:1px solid #ccc;min-width:44px;vertical-align:top;background:#fff;">${calendar[w][d] || ''}</td>`;
         }
         html += '</tr>';
       }
@@ -118,11 +128,16 @@ function showCalendarTable() {
       // 表示エリアを置き換え
       const chartArea = document.getElementById("visitor-chart");
       chartArea.innerHTML = html;
+
       // グラフ説明文も非表示にする場合
       const desc = document.querySelector('.chart-description');
       if (desc) desc.style.display = "none";
     });
 }
+
+// 公式版や速報版ボタンが押されたときはカレンダーを消す（グラフを再描画するのでOK）
+// 追加の特別な処理は不要ですが、念のためグラフ描画時にカレンダー以外の内容を上書きすることを確認してください。
+// すでにupdateDisplay内でcanvasを生成しているため、カレンダーは自動的に非表示になります。
 
 function updateDisplay(data) {
   const total = data.dailyVisitors.reduce((sum, d) => sum + d.count, 0);
