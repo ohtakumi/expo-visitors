@@ -27,6 +27,7 @@ function loadData(type) {
     chartArea.innerHTML = ""; // カレンダーを消す
     chartArea.style.background = "#f5f5f5"; // グラフ用の背景色に戻す
     chartArea.style.border = "1px solid #ddd"; // 枠線を戻す
+    chartArea.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)"; // box-shadowを戻す
     // グラフ用canvasを追加
     createChartCanvas();
   }
@@ -34,6 +35,7 @@ function loadData(type) {
   if (type === 'カレンダー') {
     chartArea.style.background = "none"; // カレンダー時は背景を消す
     chartArea.style.border = "none";     // カレンダー時は枠線も消す
+    chartArea.style.boxShadow = "none";  // カレンダー時はbox-shadowも消す
     showCalendarTable();
     return;
   }
