@@ -107,7 +107,7 @@ function showCalendarTable() {
           calendar[week][day] = `
             ${dateLabel}
             <div style="font-size:1.5em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
-            <div style="font-size:0.95em;color:#888;">うち関係者数 ${d.staff.toLocaleString()}</div>
+            <div style="font-size:0.8em;color:#888;">うち関係者数 ${d.staff.toLocaleString()}</div>
           `;
           return true; // someでループ終了
         }
@@ -117,7 +117,7 @@ function showCalendarTable() {
         calendar[week][day] = `
           ${dateLabel}
           <div style="font-size:1.5em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
-          <div style="font-size:0.95em;color:#888;">うち関係者数 ${d.staff.toLocaleString()}</div>
+          <div style="font-size:0.8em;color:#888;">うち関係者数 ${d.staff.toLocaleString()}</div>
         `;
         return false;
       });
