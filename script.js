@@ -42,19 +42,19 @@ function showCalendarTable() {
     .then(response => response.json())
     .then(data => {
       const daily = data.dailyVisitors;
-      const year = 2025;
+      const year = 2025; // 固定
       const calendar = Array(12).fill(null).map(() => Array(7).fill('')); // 12週分に拡張
       let week = 0;
       let prevMonth = null;
       let started = false;
 
-      // ここをforEachからsomeに変更
-      daily.some((d, i) => {
+      daily.forEach((d, i) => {
         const [mm, dd] = d.date.split('-');
         const dateObj = new Date(`${year}-${mm}-${dd}`);
-        const day = dateObj.getDay();
+        const day = dateObj.getDay(); // 0:日, 1:月, ...
         const month = Number(mm);
 
+        // 4月13日から開始
         if (!started && mm === "04" && dd === "13") {
           started = true;
           week = 0;
@@ -62,15 +62,17 @@ function showCalendarTable() {
 
         // 10月13日までで打ち切り
         if (mm === "10" && dd === "13") {
+          // 10月13日も含めて表示
           let dateLabel = `<div style="font-size:1.1em;font-weight:bold;">${Number(dd)}</div>`;
           calendar[week][day] = `
             ${dateLabel}
             <div style="font-size:1.5em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
             <div style="font-size:0.95em;color:#888;">関係者数 ${d.staff.toLocaleString()}</div>
           `;
-          return true; // ここでループ終了
+          return false; // forEachを終了
         }
 
+        // 4月の場合は13日から、それ以外は1日から月を強調
         let dateLabel = '';
         if ((mm === "04" && dd === "13") || (dd === "01" && month !== prevMonth && mm !== "04")) {
           dateLabel = `<div style="font-size:0.9em;color:#d84315;font-weight:bold;">${month}月</div><div style="font-size:1.1em;font-weight:bold;">${Number(dd)}</div>`;
@@ -79,7 +81,8 @@ function showCalendarTable() {
           dateLabel = `<div style="font-size:1.1em;font-weight:bold;">${Number(dd)}</div>`;
         }
 
-        if (!started) return false;
+        // 4月13日以前はスキップ
+        if (!started) return;
 
         if (i === 0) week = 0;
         else if (day === 0 && i !== 0) week++;
@@ -88,7 +91,6 @@ function showCalendarTable() {
           <div style="font-size:1.5em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
           <div style="font-size:0.95em;color:#888;">関係者数 ${d.staff.toLocaleString()}</div>
         `;
-        return false;
       });
 
       // テーブルHTML生成
@@ -113,8 +115,10 @@ function showCalendarTable() {
         </table>
       `;
 
+      // 表示エリアを置き換え
       const chartArea = document.getElementById("visitor-chart");
       chartArea.innerHTML = html;
+      // グラフ説明文も非表示にする場合
       const desc = document.querySelector('.chart-description');
       if (desc) desc.style.display = "none";
     });
