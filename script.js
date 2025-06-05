@@ -22,6 +22,7 @@ function changeMode(type) {
 
 function loadData(type) {
   const chartArea = document.getElementById("visitor-chart");
+  const desc = document.querySelector('.chart-description');
   // カレンダー以外の時はカレンダーを消してグラフ用canvasを用意
   if (type !== 'カレンダー') {
     chartArea.innerHTML = ""; // カレンダーを消す
@@ -30,6 +31,8 @@ function loadData(type) {
     chartArea.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)"; // box-shadowを戻す
     // グラフ用canvasを追加
     createChartCanvas();
+    // .chart-descriptionを表示
+    if (desc) desc.style.display = "";
   }
 
   if (type === 'カレンダー') {
@@ -37,6 +40,8 @@ function loadData(type) {
     chartArea.style.border = "none";     // カレンダー時は枠線も消す
     chartArea.style.boxShadow = "none";  // カレンダー時はbox-shadowも消す
     showCalendarTable();
+    // .chart-descriptionを非表示
+    if (desc) desc.style.display = "none";
     return;
   }
   const file = type === '速報' ? 'visitors速報.json' : 'visitors確定.json';
