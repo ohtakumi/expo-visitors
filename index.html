@@ -36,15 +36,18 @@
 <body>
     <header>
       <h1>EXPO2025 大阪・関西万博 来場者数カウンター</h1>
-      <p>このサイトは、EXPO2025 大阪・関西万博の来場者数を確認できる非公式カウンターです</p>
+      <p>このサイトは、EXPO2025 大阪・関西万博の来場者数を確認できる非公式カウンター</p>
+      <div class="current-mode-badge" id="currentMode">現在：速報版表示中</div>
       <div class="selector">
         <button onclick="loadData('速報')">速報版</button>
         <button onclick="loadData('確定')">公式版</button>
+        <button onclick="loadData('カレンダー')">カレンダー</button>
       </div>
 
       <p class="description">
         <strong>速報版</strong>：翌日のニュース等からの推定値<br>
-        <strong>公式版</strong>：公式サイトで発表される確定値
+        <strong>公式版</strong>：公式サイトで発表される確定値<br>
+        <strong>カレンダー</strong>：日別のカレンダー（数値は速報版）<br>
       </p>
     </header>
 

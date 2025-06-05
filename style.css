@@ -27,6 +27,19 @@ header p {
   margin: 10px 0 20px;
 }
 
+.current-mode-badge {
+  display: block;
+  background-color: #1976d2; /* 明るめのブルー */
+  color: #fff;
+  font-weight: bold;
+  border-radius: 6px;
+  padding: 4px 12px;
+  margin: 0 auto 8px auto; /* 上下はそのまま、左右autoで中央寄せ */
+  text-align: center;
+  font-size: 1rem;
+  width: fit-content; /* 内容に合わせて幅を調整 */
+}
+
 .selector button.active {
   background-color: #d84315; /* さらに濃いオレンジ */
   color: white;
