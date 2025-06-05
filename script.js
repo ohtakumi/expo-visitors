@@ -25,6 +25,7 @@ function loadData(type) {
   // カレンダー以外の時はカレンダーを消してグラフ用canvasを用意
   if (type !== 'カレンダー') {
     chartArea.innerHTML = ""; // カレンダーを消す
+    chartArea.style.background = "#f5f5f5"; // グラフ用の背景色に戻す
     // グラフ用canvasを追加
     createChartCanvas();
   }
