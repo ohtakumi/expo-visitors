@@ -43,7 +43,7 @@ function showCalendarTable() {
     .then(data => {
       const daily = data.dailyVisitors;
       const year = 2025;
-      const calendar = Array(6).fill(null).map(() => Array(7).fill(''));
+      const calendar = Array(12).fill(null).map(() => Array(7).fill('')); // 12週分に拡張
       let week = 0;
       let prevMonth = null;
       let started = false;
