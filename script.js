@@ -21,6 +21,14 @@ function changeMode(type) {
 }
 
 function loadData(type) {
+  const chartArea = document.getElementById("visitor-chart");
+  // カレンダー以外の時はカレンダーを消してグラフ用canvasを用意
+  if (type !== 'カレンダー') {
+    chartArea.innerHTML = ""; // カレンダーを消す
+    // グラフ用canvasを追加
+    createChartCanvas();
+  }
+
   if (type === 'カレンダー') {
     showCalendarTable();
     return;
@@ -35,6 +43,17 @@ function loadData(type) {
     .catch(error => {
       console.error('データ読み込みエラー:', error);
     });
+}
+
+function createChartCanvas() {
+  // visitor-chart内にcanvasがなければ追加
+  const chartArea = document.getElementById("visitor-chart");
+  if (!chartArea.querySelector("canvas")) {
+    const canvas = document.createElement("canvas");
+    chartArea.appendChild(canvas);
+    return canvas;
+  }
+  return chartArea.querySelector("canvas");
 }
 
 function showCalendarTable() {
