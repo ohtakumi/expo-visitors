@@ -110,7 +110,7 @@ function showCalendarTable() {
 
         // 金色ハイライト判定
         const highlight = d.count === maxCount
-          ? 'background:linear-gradient(90deg,#ffe082,#fffde7);border:2px solid gold;'
+          ? 'background:linear-gradient(90deg,#ffe082,#fffde7);border:2px solid gold;width:100%;height:100%;display:block;box-sizing:border-box;'
           : 'background:#fff;';
 
         // 10月13日までで打ち切り
