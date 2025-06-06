@@ -95,10 +95,10 @@ function showCalendarTable() {
 
         // 月表示がある場合は日付の中央揃えを維持するため、flexで左側に月、中央に日を配置
         let dateLabel = '';
-       if ((mm === "04" && dd === "13") || (dd === "01" && month !== prevMonth && mm !== "04")) {
+        if ((mm === "04" && dd === "13") || (dd === "01" && month !== prevMonth && mm !== "04")) {
   dateLabel = `
-    <div style="display:flex;align-items:center;justify-content:center;">
-      <span style="color:#d84315;font-weight:bold;font-size:0.9em;margin-right:0.3em;">${month}月</span>
+    <div style="display:flex;align-items:center;justify-content:flex-start;">
+      <span style="color:#d84315;font-weight:bold;font-size:0.9em;margin-right:0.3em;min-width:2em;text-align:left;">${month}月</span>
       <span style="font-size:1.1em;font-weight:bold;">${Number(dd)}日</span>
     </div>`;
   prevMonth = month;
