@@ -97,15 +97,14 @@ function showCalendarTable() {
         let dateLabel = '';
         if ((mm === "04" && dd === "13") || (dd === "01" && month !== prevMonth && mm !== "04")) {
           dateLabel = `
-            <div style="display:flex;align-items:center;justify-content:center;">
-              <span style="color:#d84315;font-weight:bold;font-size:0.9em;width:2.5em;min-width:2.5em;text-align:right;display:inline-block;">${month}月</span>
-              <span style="font-size:1.1em;font-weight:bold;flex:1;text-align:center;display:inline-block;min-width:2.5em;">${Number(dd)}</span>
+            <div style="display:grid;grid-template-columns:2.5em 1fr;align-items:center;justify-items:center;">
+              <span style="color:#d84315;font-weight:bold;font-size:0.9em;text-align:right;">${month}月</span>
+              <span style="font-size:1.1em;font-weight:bold;text-align:center;">${Number(dd)}</span>
             </div>`;
           prevMonth = month;
         } else {
-          // 月表示がない場合も日付を中央に
           dateLabel = `<div style="font-size:1.1em;font-weight:bold;text-align:center;min-width:4em;display:block;margin:0 auto;">${Number(dd)}</div>`;
-        }
+}
 
         // 10月13日までで打ち切り
         if (mm === "10" && dd === "13") {
