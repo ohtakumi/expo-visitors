@@ -78,9 +78,6 @@ function showCalendarTable() {
       let prevMonth = null;
       let started = false;
 
-      // 最大来場者数を取得
-      const maxCount = Math.max(...daily.map(d => d.count));
-
       daily.some((d, i) => {
         const [mm, dd] = d.date.split('-');
         const dateObj = new Date(`${year}-${mm}-${dd}`);
@@ -96,7 +93,7 @@ function showCalendarTable() {
         // 4月13日以前はスキップ
         if (!started) return false;
 
-        // 月表示がある場合
+        // 月表示がある場合は日付の中央揃えを維持するため、flexで左側に月、中央に日を配置
         let dateLabel = '';
         if ((mm === "04" && dd === "13") || (dd === "01" && month !== prevMonth && mm !== "04")) {
           dateLabel = `
@@ -108,34 +105,27 @@ function showCalendarTable() {
           dateLabel = `<div style="font-size:1.1em;font-weight:bold;text-align:center;">${Number(dd)}日</div>`;
         }
 
-        // 金色ハイライト判定（今は停止）
-        const highlight = 'background:#fff;';
-
         // 10月13日までで打ち切り
         if (mm === "10" && dd === "13") {
           calendar[week][day] = `
-            <div style="${highlight};padding:2px 0 2px 0;border-radius:6px;">
-              ${dateLabel}
-              <div style="font-size:1.5em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
-              <div style="font-size:0.8em;color:#888;">うち関係者数 ${d.staff.toLocaleString()}</div>
-            </div>
+            ${dateLabel}
+            <div style="font-size:1.5em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
+            <div style="font-size:0.8em;color:#888;">うち関係者数 ${d.staff.toLocaleString()}</div>
           `;
-          return true;
+          return true; // someでループ終了
         }
 
         if (i === 0) week = 0;
         else if (day === 0 && i !== 0) week++;
         calendar[week][day] = `
-          <div style="${highlight};padding:2px 0 2px 0;border-radius:6px;">
-            ${dateLabel}
-            <div style="font-size:1.5em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
-            <div style="font-size:0.8em;color:#888;">うち関係者数 ${d.staff.toLocaleString()}</div>
-          </div>
+          ${dateLabel}
+          <div style="font-size:1.5em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
+          <div style="font-size:0.8em;color:#888;">うち関係者数 ${d.staff.toLocaleString()}</div>
         `;
         return false;
       });
 
-      // テーブルHTML生成
+      // テーブルHTML生成（枠線をthead,tbody,td,thすべてに適用）
       let html = `
         <table class="calendar-table" style="margin:0 auto;width:100%;max-width:600px;border-collapse:collapse;text-align:center;">
           <thead>
@@ -155,7 +145,7 @@ function showCalendarTable() {
         if (calendar[w].every(cell => cell === '')) continue;
         html += '<tr>';
         for (let d = 0; d < 7; d++) {
-          html += `<td style="padding:8px 4px;border:1px solid #ccc;min-width:44px;vertical-align:top;">${calendar[w][d] || ''}</td>`;
+          html += `<td style="padding:8px 4px;border:1px solid #ccc;min-width:44px;vertical-align:top;background:#fff;">${calendar[w][d] || ''}</td>`;
         }
         html += '</tr>';
       }
