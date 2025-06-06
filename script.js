@@ -78,6 +78,9 @@ function showCalendarTable() {
       let prevMonth = null;
       let started = false;
 
+      // 最大来場者数を取得
+      const maxCount = Math.max(...daily.map(d => d.count));
+
       daily.some((d, i) => {
         const [mm, dd] = d.date.split('-');
         const dateObj = new Date(`${year}-${mm}-${dd}`);
@@ -104,6 +107,9 @@ function showCalendarTable() {
         } else {
           dateLabel = `<div style="font-size:1.1em;font-weight:bold;text-align:center;">${Number(dd)}日</div>`;
         }
+
+        // 金色ハイライト判定（今は停止）
+        const highlight = 'background:#fff;';
 
         // 10月13日までで打ち切り
         if (mm === "10" && dd === "13") {
