@@ -237,6 +237,12 @@ footer a:hover {
     max-width: 100%; /* プログレスバーを画面幅に合わせる */
   }
 
+  .calendar-table th, .calendar-table td {
+    padding: 4px 1px;
+    font-size: 0.85em;
+    min-width: 32px;
+  }
+
   footer {
     font-size: 0.8rem; /* フッターの文字サイズを小さく */
     padding: 10px 0; /* フッターの余白を調整 */
