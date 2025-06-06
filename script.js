@@ -50,7 +50,7 @@ function loadData(type) {
         const progress = (((total - staff) / GOAL) * 100).toFixed(2);
 
         document.getElementById('visitor-count').textContent = total.toLocaleString() + "人";
-        document.getElementById('staff-count').textContent = "関係者数: " + staff.toLocaleString() + "人";
+        document.getElementById('staff-count').textContent = "うち関係者数: " + staff.toLocaleString() + "人";
         document.getElementById('last-updated').textContent = "最終更新: " + updated.toLocaleString();
         const progressFill = document.getElementById('progress-fill');
         if (progressFill) {
