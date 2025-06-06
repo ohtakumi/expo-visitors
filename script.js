@@ -78,22 +78,25 @@ function showCalendarTable() {
       let prevMonth = null;
       let started = false;
 
+      // --- 累計・関係者数・最終更新・進捗バーの計算 ---
+      const total = daily.reduce((sum, d) => sum + d.count, 0);
+      const staff = daily.reduce((sum, d) => sum + d.staff, 0);
+      const updated = new Date(data.lastUpdated);
+      const progress = (((total - staff) / GOAL) * 100).toFixed(2);
+
+      // --- カレンダー生成 ---
       daily.some((d, i) => {
         const [mm, dd] = d.date.split('-');
         const dateObj = new Date(`${year}-${mm}-${dd}`);
         const day = dateObj.getDay();
         const month = Number(mm);
 
-        // 4月13日から開始
         if (!started && mm === "04" && dd === "13") {
           started = true;
           week = 0;
         }
-
-        // 4月13日以前はスキップ
         if (!started) return false;
 
-        // 月表示がある場合は日付の中央揃えを維持するため、flexで左側に月、中央に日を配置
         let dateLabel = '';
         if ((mm === "04" && dd === "13") || (dd === "01" && month !== prevMonth && mm !== "04")) {
           dateLabel = `
@@ -105,14 +108,13 @@ function showCalendarTable() {
           dateLabel = `<div style="font-size:1.1em;font-weight:bold;text-align:center;">${Number(dd)}日</div>`;
         }
 
-        // 10月13日までで打ち切り
         if (mm === "10" && dd === "13") {
           calendar[week][day] = `
             ${dateLabel}
             <div style="font-size:1.5em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
             <div style="font-size:0.8em;color:#888;">うち関係者数 ${d.staff.toLocaleString()}</div>
           `;
-          return true; // someでループ終了
+          return true;
         }
 
         if (i === 0) week = 0;
@@ -125,8 +127,21 @@ function showCalendarTable() {
         return false;
       });
 
-      // テーブルHTML生成（枠線をthead,tbody,td,thすべてに適用）
+      // --- カレンダーHTML生成 ---
       let html = `
+        <div class="calendar-summary" style="margin-bottom:18px;">
+          <div style="font-size:1.2em;font-weight:bold;">累計来場者数: <span id="visitor-count">${total.toLocaleString()}人</span></div>
+          <div style="font-size:1em;color:#888;">うち関係者数: <span id="staff-count">${staff.toLocaleString()}人</span></div>
+          <div style="font-size:0.95em;color:#888;" id="last-updated">最終更新: ${updated.toLocaleString()}</div>
+          <div style="margin-top:8px;">
+            <div style="background:#eee;border-radius:6px;overflow:hidden;height:18px;width:100%;max-width:400px;margin:0 auto;">
+              <div id="progress-fill" style="background:#42a5f5;height:100%;width:${progress}%;color:#fff;text-align:center;line-height:18px;font-size:0.95em;transition:width 0.5s;">
+                ${progress}%
+              </div>
+            </div>
+            <div style="font-size:0.9em;color:#888;margin-top:2px;">目標: ${GOAL.toLocaleString()}人</div>
+          </div>
+        </div>
         <table class="calendar-table" style="margin:0 auto;width:100%;max-width:600px;border-collapse:collapse;text-align:center;">
           <thead>
             <tr>
