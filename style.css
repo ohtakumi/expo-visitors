@@ -197,6 +197,7 @@ footer a:hover {
   width: 100%;
   overflow-x: auto;
 }
+
 .calendar-table {
   width: 100%;
   max-width: 800px;
@@ -205,6 +206,15 @@ footer a:hover {
   text-align: center;
   font-size: clamp(0.8em, 2.5vw, 1em);
 }
+
+.calendar-description {
+  margin-bottom: 10px;
+  font-size: 0.97em;
+  color: #555;
+  text-align: center;
+  line-height: 1.6;
+}
+
 @media (max-width: 600px) {
   .calendar-table th,
   .calendar-table td {

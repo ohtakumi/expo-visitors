@@ -144,6 +144,9 @@ function showCalendarTable() {
 
       // テーブルHTML生成（枠線をthead,tbody,td,thすべてに適用）
       let html = `
+        <div class="calendar-description" style="margin-bottom:10px; font-size:0.97em; color:#555;">
+          スマホの場合、横スクロールで全体を確認できます
+        </div>
         <div class="calendar-table-wrapper" style="overflow-x:auto;width:100%;">
           <table class="calendar-table" style="margin:0 auto;width:100%;max-width:800px;min-width:420px;border-collapse:collapse;text-align:center;font-size:clamp(0.8em,2.5vw,1em);">
             <thead>
