@@ -115,7 +115,7 @@ function showCalendarTable() {
         if ((mm === "04" && dd === "13") || (dd === "01" && month !== prevMonth && mm !== "04")) {
           dateLabel = `
             <div style="font-size:1.1em;font-weight:bold;text-align:left;">
-              <span style="color:#d84315;font-size:0.9em;font-weight:bold;">${month}月</span> ${Number(dd)}日
+              <span style="color:#d84315;font-size:0.9em;font-weight:bold;">${month}月</span>${Number(dd)}日
             </div>`;
           prevMonth = month;
         } else {
