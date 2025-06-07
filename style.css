@@ -193,6 +193,27 @@ footer a:hover {
   text-decoration: underline;
 }
 
+.calendar-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+.calendar-table {
+  width: 100%;
+  max-width: 800px;
+  min-width: 420px;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: clamp(0.8em, 2.5vw, 1em);
+}
+@media (max-width: 600px) {
+  .calendar-table th,
+  .calendar-table td {
+    padding: 4px 1px;
+    font-size: 0.85em;
+    min-width: 32px;
+  }
+}
+
 /* スマホサイズ (最大幅768px) のスタイル調整 */
 @media (max-width: 768px) {
   body {

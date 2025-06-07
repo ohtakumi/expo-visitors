@@ -144,31 +144,33 @@ function showCalendarTable() {
 
       // テーブルHTML生成（枠線をthead,tbody,td,thすべてに適用）
       let html = `
-        <table class="calendar-table" style="margin:0 auto;width:100%;max-width:600px;border-collapse:collapse;text-align:center;">
-          <thead>
-            <tr>
-              <th style="border:1px solid #ccc;padding:6px;">日</th>
-              <th style="border:1px solid #ccc;padding:6px;">月</th>
-              <th style="border:1px solid #ccc;padding:6px;">火</th>
-              <th style="border:1px solid #ccc;padding:6px;">水</th>
-              <th style="border:1px solid #ccc;padding:6px;">木</th>
-              <th style="border:1px solid #ccc;padding:6px;">金</th>
-              <th style="border:1px solid #ccc;padding:6px;">土</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div class="calendar-table-wrapper" style="overflow-x:auto;width:100%;">
+          <table class="calendar-table" style="margin:0 auto;width:100%;max-width:800px;min-width:420px;border-collapse:collapse;text-align:center;font-size:clamp(0.8em,2.5vw,1em);">
+            <thead>
+              <tr>
+                <th style="border:1px solid #ccc;padding:6px;">日</th>
+                <th style="border:1px solid #ccc;padding:6px;">月</th>
+                <th style="border:1px solid #ccc;padding:6px;">火</th>
+                <th style="border:1px solid #ccc;padding:6px;">水</th>
+                <th style="border:1px solid #ccc;padding:6px;">木</th>
+                <th style="border:1px solid #ccc;padding:6px;">金</th>
+                <th style="border:1px solid #ccc;padding:6px;">土</th>
+              </tr>
+            </thead>
+            <tbody>
       `;
       for (let w = 0; w < calendar.length; w++) {
         if (calendar[w].every(cell => cell === '')) continue;
         html += '<tr>';
         for (let d = 0; d < 7; d++) {
-          html += `<td style="padding:8px 4px;border:1px solid #ccc;min-width:44px;vertical-align:top;background:#fff;">${calendar[w][d] || ''}</td>`;
+          html += `<td style="padding:8px 2px;border:1px solid #ccc;min-width:38px;vertical-align:top;background:#fff;word-break:break-word;">${calendar[w][d] || ''}</td>`;
         }
         html += '</tr>';
       }
       html += `
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       `;
 
       // 表示エリアを置き換え
