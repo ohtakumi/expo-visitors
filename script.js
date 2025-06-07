@@ -223,6 +223,8 @@ function updateDisplay(data) {
           backgroundColor: 'rgba(66, 165, 245, 0.2)',
           borderColor: '#42a5f5',
           tension: 0.3,
+          pointRadius: 0, // ★ 点を非表示に
+          pointHoverRadius: 0 // ★ ホバー時も点を非表示
         },
         {
           label: 'うち関係者数',
@@ -232,6 +234,8 @@ function updateDisplay(data) {
           backgroundColor: 'rgba(239, 83, 80, 0.1)',
           borderDash: [5, 5],
           tension: 0.3,
+          pointRadius: 0, // ★ 点を非表示に
+          pointHoverRadius: 0 // ★ ホバー時も点を非表示
         }
       ]
     },
