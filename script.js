@@ -136,7 +136,7 @@ function showCalendarTable() {
         else if (day === 0 && i !== 0) week++;
         calendar[week][day] = `
           ${dateLabel}
-          <div style="font-size:1.2em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
+          <div style="font-size:1.4em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
           <div style="font-size:0.8em;color:#888;">うち関係者数 ${d.staff.toLocaleString()}</div>
         `;
         return false;
