@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-06-23T11:30:00",
+  "lastUpdated": "2025-06-23T15:30:00",
   "dailyVisitors": [
       { "date": "04-13", "count": 146426, "staff": 22087 },
       { "date": "04-14", "count": 70488, "staff": 16828 },
@@ -64,13 +64,13 @@
       { "date": "06-12", "count": 141488, "staff": 18683 },
       { "date": "06-13", "count": 167424, "staff": 18567 },
       { "date": "06-14", "count": 153590, "staff": 18119 },
-      { "date": "06-15", "count": 149000, "staff": 18000 },
-      { "date": "06-16", "count": 137000, "staff": 18000 },
-      { "date": "06-17", "count": 127000, "staff": 17000 },
-      { "date": "06-18", "count": 132000, "staff": 18000 },
-      { "date": "06-19", "count": 131000, "staff": 18000 },
-      { "date": "06-20", "count": 157000, "staff": 19000 },
-      { "date": "06-21", "count": 171000, "staff": 18000 },
+      { "date": "06-15", "count": 155099, "staff": 18338 },
+      { "date": "06-16", "count": 142427, "staff": 18022 },
+      { "date": "06-17", "count": 132133, "staff": 17213 },
+      { "date": "06-18", "count": 137356, "staff": 18277 },
+      { "date": "06-19", "count": 137110, "staff": 17998 },
+      { "date": "06-20", "count": 163355, "staff": 18801 },
+      { "date": "06-21", "count": 178484, "staff": 17514 },
       { "date": "06-22", "count": 144000, "staff": 18000 }
   ]
 }
