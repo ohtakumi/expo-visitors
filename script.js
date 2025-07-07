@@ -134,6 +134,10 @@ function showCalendarTable() {
 
         if (i === 0) week = 0;
         else if (day === 0 && i !== 0) week++;
+
+        // 週が足りなければ新しい週を追加
+        if (!calendar[week]) calendar[week] = Array(7).fill('');
+
         calendar[week][day] = `
           ${dateLabel}
           <div style="font-size:1.3em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
