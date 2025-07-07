@@ -1,5 +1,5 @@
 {
-    "lastUpdated": "2025-07-02T15:30:00",
+    "lastUpdated": "2025-07-07T16:00:00",
     "dailyVisitors": [
       { "date": "04-13", "count": 146426, "staff": 22087 },
       { "date": "04-14", "count": 70488, "staff": 16828 },
@@ -77,7 +77,14 @@
       { "date": "06-25", "count": 135352, "staff": 17751 },
       { "date": "06-26", "count": 132737, "staff": 19235 },
       { "date": "06-27", "count": 156426, "staff": 18721 },
-      { "date": "06-28", "count": 202819, "staff": 17829 }
+      { "date": "06-28", "count": 202819, "staff": 17829 },
+      { "date": "06-29", "count": 151041, "staff": 17104 },
+      { "date": "06-30", "count": 123342, "staff": 17459 },
+      { "date": "07-01", "count": 108315, "staff": 17687 },
+      { "date": "07-02", "count": 113877, "staff": 17857 },
+      { "date": "07-03", "count": 124748, "staff": 19491 },
+      { "date": "07-04", "count": 142339, "staff": 18567 },
+      { "date": "07-05", "count": 150497, "staff": 16494 }
     ]
   }
   
