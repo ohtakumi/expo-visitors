@@ -198,6 +198,8 @@ footer a:hover {
   overflow-x: auto;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  /* スクロールバーを上部に表示するためのスタイル */
+  transform: rotateX(180deg);
 }
 
 .calendar-table {
@@ -207,6 +209,8 @@ footer a:hover {
   border-collapse: collapse;
   text-align: center;
   font-size: clamp(0.8em, 2.5vw, 1em);
+  /* テーブル自体を元の向きに戻す */
+  transform: rotateX(180deg);
 }
 
 /* カレンダーテーブルのスクロールバーをカスタマイズ */
