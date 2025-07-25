@@ -210,7 +210,7 @@ footer a:hover {
 /* スワイプ案内のスタイル */
 .swipe-hint {
   display: none;
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -275,7 +275,7 @@ footer a:hover {
 
   #visitor-chart {
     padding: 15px; /* 内側の余白を少し減らす */
-    max-width: 95%; /* 最大幅を90%に設定してスマホ画面に対応 */
+    max-width: 90%; /* 最大幅を90%に設定してスマホ画面に対応 */
     margin: 0 auto 20px auto; /* 上: 0, 左右: auto（中央揃え）, 下: 20px */
     display: block; /* フレックスボックスを解除 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 影を少し控えめに */
@@ -312,6 +312,15 @@ footer a:hover {
   
   .calendar-table-wrapper.show-swipe-hint .swipe-hint {
     display: block;
+  }
+
+  /* #visitor-chart内でカレンダー表示時の位置調整 */
+  #visitor-chart .swipe-hint {
+    position: absolute; /* visitor-chart内での絶対位置 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001; /* カレンダーより上に表示 */
   }
   
   /* カレンダーテーブルのスクロールバーをカスタマイズ */

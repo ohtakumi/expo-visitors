@@ -7,13 +7,12 @@ function initSwipeHint() {
   if (window.innerWidth <= 768) {
     const hasSwipedBefore = localStorage.getItem('hasSwipedCalendar');
     const chartArea = document.getElementById('visitor-chart');
-    const swipeHint = document.getElementById('swipe-hint');
     
-    if (!hasSwipedBefore && chartArea && swipeHint) {
+    if (!hasSwipedBefore && chartArea) {
       // カレンダーテーブルが表示されているかチェック
       const calendarWrapper = chartArea.querySelector('.calendar-table-wrapper');
       if (calendarWrapper) {
-        // スワイプ案内を表示
+        // chartArea自体にshow-swipe-hintクラスを追加
         chartArea.classList.add('show-swipe-hint');
         
         // 3秒後に自動で非表示
