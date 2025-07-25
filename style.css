@@ -207,6 +207,42 @@ footer a:hover {
   font-size: clamp(0.8em, 2.5vw, 1em);
 }
 
+/* スワイプ案内のスタイル */
+.swipe-hint {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(52, 152, 219, 0.9);
+  color: white;
+  padding: 20px;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  text-align: center;
+  z-index: 1000;
+  animation: swipeHintFade 2s ease-in-out infinite;
+  pointer-events: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.swipe-hint-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.swipe-hint-text {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+@keyframes swipeHintFade {
+  0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+}
+
 @media (max-width: 600px) {
   .calendar-table th,
   .calendar-table td {
@@ -239,7 +275,7 @@ footer a:hover {
 
   #visitor-chart {
     padding: 15px; /* 内側の余白を少し減らす */
-    max-width: 90%; /* 最大幅を解除して画面幅に合わせる */
+    max-width: 95%; /* 最大幅を90%に設定してスマホ画面に対応 */
     margin: 0 auto 20px auto; /* 上: 0, 左右: auto（中央揃え）, 下: 20px */
     display: block; /* フレックスボックスを解除 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 影を少し控えめに */
@@ -263,5 +299,33 @@ footer a:hover {
   footer {
     font-size: 0.8rem; /* フッターの文字サイズを小さく */
     padding: 10px 0; /* フッターの余白を調整 */
+  }
+
+  /* スマホでカレンダー表示時にスワイプ案内を表示 */
+  .calendar-table-wrapper {
+    position: relative;
+    width: 100%;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .calendar-table-wrapper.show-swipe-hint .swipe-hint {
+    display: block;
+  }
+  
+  /* カレンダーテーブルのスクロールバーをカスタマイズ */
+  .calendar-table-wrapper::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .calendar-table-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+  }
+  
+  .calendar-table-wrapper::-webkit-scrollbar-thumb {
+    background: #1976d2;
+    border-radius: 2px;
   }
 }

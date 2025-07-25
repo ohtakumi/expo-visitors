@@ -1,6 +1,47 @@
 const GOAL = 28200000;
 let chartInstance = null;
 
+// スワイプ案内の制御
+function initSwipeHint() {
+  // スマホサイズかつカレンダー表示時のみ
+  if (window.innerWidth <= 768) {
+    const hasSwipedBefore = localStorage.getItem('hasSwipedCalendar');
+    const chartArea = document.getElementById('visitor-chart');
+    const swipeHint = document.getElementById('swipe-hint');
+    
+    if (!hasSwipedBefore && chartArea && swipeHint) {
+      // カレンダーテーブルが表示されているかチェック
+      const calendarWrapper = chartArea.querySelector('.calendar-table-wrapper');
+      if (calendarWrapper) {
+        // スワイプ案内を表示
+        chartArea.classList.add('show-swipe-hint');
+        
+        // 3秒後に自動で非表示
+        setTimeout(() => {
+          chartArea.classList.remove('show-swipe-hint');
+        }, 3000);
+        
+        // スワイプ検知
+        let startX = 0;
+        calendarWrapper.addEventListener('touchstart', function(e) {
+          startX = e.touches[0].clientX;
+        });
+        
+        calendarWrapper.addEventListener('touchmove', function(e) {
+          const currentX = e.touches[0].clientX;
+          const diffX = Math.abs(currentX - startX);
+          
+          // 横スワイプが検知されたら案内を非表示にして記録
+          if (diffX > 30) {
+            chartArea.classList.remove('show-swipe-hint');
+            localStorage.setItem('hasSwipedCalendar', 'true');
+          }
+        });
+      }
+    }
+  }
+}
+
 function changeMode(type) {
   // ボタンのactive切り替え
   document.querySelectorAll('.selector button').forEach(btn => btn.classList.remove('active'));
@@ -23,9 +64,13 @@ function changeMode(type) {
 function loadData(type) {
   const chartArea = document.getElementById("visitor-chart");
   const desc = document.querySelector('.chart-description');
+  
+  // スワイプ案内をクリア
+  chartArea.classList.remove('show-swipe-hint');
+  
   // カレンダー以外の時はカレンダーを消してグラフ用canvasを用意
   if (type !== 'カレンダー') {
-    chartArea.innerHTML = "";
+    chartArea.innerHTML = '<div class="swipe-hint" id="swipe-hint"><span class="swipe-hint-icon">👆</span><span class="swipe-hint-text">スワイプ</span></div>';
     chartArea.style.background = "#f5f5f5";
     chartArea.style.border = "1px solid #ddd";
     chartArea.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
@@ -58,6 +103,8 @@ function loadData(type) {
           progressFill.textContent = progress + "%";
         }
         showCalendarTable();
+        // カレンダー表示後にスワイプ案内を初期化
+        setTimeout(() => initSwipeHint(), 100);
       });
     return;
   }
@@ -148,6 +195,10 @@ function showCalendarTable() {
 
       // テーブルHTML生成（枠線をthead,tbody,td,thすべてに適用）
       let html = `
+        <div class="swipe-hint" id="swipe-hint">
+          <span class="swipe-hint-icon">👆</span>
+          <span class="swipe-hint-text">スワイプ</span>
+        </div>
         <div class="calendar-table-wrapper" style="overflow-x:auto;width:100%;">
           <table class="calendar-table" style="margin:0 auto;width:100%;max-width:800px;min-width:420px;border-collapse:collapse;text-align:center;font-size:clamp(0.8em,2.5vw,1em);">
             <thead>
