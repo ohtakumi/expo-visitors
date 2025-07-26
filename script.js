@@ -96,6 +96,11 @@ function showCalendarTable() {
       let prevMonth = null;
       let started = false;
 
+      // 🎆を表示する日付を定義
+      const fireworksDates = new Set([
+        '04-26', '05-31', '06-28', '07-21', '07-23'
+      ]);
+
       daily.some((d, i) => {
         const [mm, dd] = d.date.split('-');
         const dateObj = new Date(`${year}-${mm}-${dd}`);
@@ -111,16 +116,20 @@ function showCalendarTable() {
         // 4月13日以前はスキップ
         if (!started) return false;
 
+        // 🎆が必要な日付かチェック
+        const isFireworksDate = fireworksDates.has(`${mm}-${dd}`);
+        const fireworksIcon = isFireworksDate ? ' 🎆' : '';
+
         // 月表示がある場合は日付の中央揃えを維持するため、flexで左側に月、中央に日を配置
         let dateLabel = '';
         if ((mm === "04" && dd === "13") || (dd === "01" && month !== prevMonth && mm !== "04")) {
           dateLabel = `
             <div style="font-size:1.1em;font-weight:bold;text-align:left;">
-              <span style="color:#d84315;font-size:0.9em;font-weight:bold;">${month}月</span>${Number(dd)}日
+              <span style="color:#d84315;font-size:0.9em;font-weight:bold;">${month}月</span>${Number(dd)}日${fireworksIcon}
             </div>`;
           prevMonth = month;
         } else {
-          dateLabel = `<div style="font-size:1.1em;font-weight:bold;text-align:center;">${Number(dd)}日</div>`;
+          dateLabel = `<div style="font-size:1.1em;font-weight:bold;text-align:center;">${Number(dd)}日${fireworksIcon}</div>`;
         }
 
         // 10月13日までで打ち切り
