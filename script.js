@@ -101,10 +101,24 @@ function showCalendarTable() {
         '04-26', '05-31', '06-28', '07-21', '07-23', '08-23', '09-27', '10-08'
       ]);
 
+      // 祝日を定義（2025年の万博期間中の祝日）
+      const holidays = new Set([
+        '04-29', // 昭和の日
+        '05-03', // 憲法記念日
+        '05-04', // みどりの日
+        '05-05', // こどもの日
+        '05-06', // 振替休日
+        '07-21', // 海の日
+        '08-11', // 山の日
+        '09-15', // 敬老の日
+        '09-23', // 秋分の日
+        '10-13'  // スポーツの日
+      ]);
+
       daily.some((d, i) => {
         const [mm, dd] = d.date.split('-');
         const dateObj = new Date(`${year}-${mm}-${dd}`);
-        const day = dateObj.getDay();
+        const day = dateObj.getDay(); // 0=日曜, 1=月曜, ..., 6=土曜
         const month = Number(mm);
 
         // 4月13日から開始
@@ -120,16 +134,27 @@ function showCalendarTable() {
         const isFireworksDate = fireworksDates.has(`${mm}-${dd}`);
         const fireworksIcon = isFireworksDate ? ' 🎆' : '';
 
+        // 祝日かチェック
+        const isHoliday = holidays.has(`${mm}-${dd}`);
+
+        // 日付の色を決定
+        let dateColor = '#000'; // デフォルト（平日）
+        if (day === 0 || isHoliday) { // 日曜日または祝日
+          dateColor = '#e53935'; // 赤色
+        } else if (day === 6) { // 土曜日
+          dateColor = '#1976d2'; // 青色
+        }
+
         // 月表示がある場合は日付の中央揃えを維持するため、flexで左側に月、中央に日を配置
         let dateLabel = '';
         if ((mm === "04" && dd === "13") || (dd === "01" && month !== prevMonth && mm !== "04")) {
           dateLabel = `
             <div style="font-size:1.1em;font-weight:bold;text-align:left;">
-              <span style="color:#ffc107;font-size:0.9em;font-weight:bold;">${month}月</span>${Number(dd)}日${fireworksIcon}
+              <span style="color:#ffc107;font-size:0.9em;font-weight:bold;">${month}月</span><span style="color:${dateColor};">${Number(dd)}日</span>${fireworksIcon}
             </div>`;
           prevMonth = month;
         } else {
-          dateLabel = `<div style="font-size:1.1em;font-weight:bold;text-align:center;">${Number(dd)}日${fireworksIcon}</div>`;
+          dateLabel = `<div style="font-size:1.1em;font-weight:bold;text-align:center;color:${dateColor};">${Number(dd)}日${fireworksIcon}</div>`;
         }
 
         // 10月13日までで打ち切り
@@ -162,13 +187,13 @@ function showCalendarTable() {
           <table class="calendar-table" style="margin:0 auto;width:100%;max-width:800px;min-width:420px;border-collapse:collapse;text-align:center;font-size:clamp(0.8em,2.5vw,1em);">
             <thead>
               <tr>
-                <th style="border:1px solid #ccc;padding:6px;">日</th>
+                <th style="border:1px solid #ccc;padding:6px;color:#e53935;">日</th>
                 <th style="border:1px solid #ccc;padding:6px;">月</th>
                 <th style="border:1px solid #ccc;padding:6px;">火</th>
                 <th style="border:1px solid #ccc;padding:6px;">水</th>
                 <th style="border:1px solid #ccc;padding:6px;">木</th>
                 <th style="border:1px solid #ccc;padding:6px;">金</th>
-                <th style="border:1px solid #ccc;padding:6px;">土</th>
+                <th style="border:1px solid #ccc;padding:6px;color:#1976d2;">土</th>
               </tr>
             </thead>
             <tbody>
