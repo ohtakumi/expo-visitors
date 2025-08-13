@@ -142,7 +142,7 @@ function showCalendarTable() {
         if (day === 0 || isHoliday) { // 日曜日または祝日
           dateColor = '#e53935'; // 赤色
         } else if (day === 6) { // 土曜日
-          dateColor = '#023c76ff'; // 青色
+          dateColor = '#1976d2'; // 青色
         }
 
         // 月表示がある場合は日付の中央揃えを維持するため、flexで左側に月、中央に日を配置
@@ -161,7 +161,7 @@ function showCalendarTable() {
         if (mm === "10" && dd === "13") {
           calendar[week][day] = `
             ${dateLabel}
-            <div style="font-size:1.5em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
+            <div style="font-size:1.5em;font-weight:bold;color:#555;line-height:1.2;">${d.count.toLocaleString()}</div>
             <div style="font-size:0.8em;color:#888;">うち関係者数 ${d.staff.toLocaleString()}</div>
           `;
           return true; // someでループ終了
