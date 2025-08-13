@@ -142,7 +142,7 @@ function showCalendarTable() {
         if (day === 0 || isHoliday) { // 日曜日または祝日
           dateColor = '#e53935'; // 赤色
         } else if (day === 6) { // 土曜日
-          dateColor = '#1976d2'; // 青色
+          dateColor = '#023c76ff'; // 青色
         }
 
         // 月表示がある場合は日付の中央揃えを維持するため、flexで左側に月、中央に日を配置
