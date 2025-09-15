@@ -350,6 +350,7 @@ function showBarCharts(data, type) {
   barArea.style.padding = "20px";
   barArea.style.maxWidth = "700px";
   barArea.style.margin = "30px auto";
+  barArea.style.borderRadius = "10px";
   barArea.innerHTML = '';
 
   if (type === '週別') {
