@@ -33,7 +33,7 @@ function loadData(type) {
   if (type === '週別' || type === '曜日別') {
     // ▼ ここで写真やグラフも含めて完全に消す
     chartArea.innerHTML = '';
-    chartArea.style.background = "#fff"; // ★ カレンダーと同じ白背景に
+    chartArea.style.background = "none";
     chartArea.style.border = "none";
     chartArea.style.boxShadow = "none";
     if (desc) desc.style.display = "none";
