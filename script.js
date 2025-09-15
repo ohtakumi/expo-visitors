@@ -7,12 +7,16 @@ function changeMode(type) {
   if (type === '速報') document.getElementById('btn-sokuho').classList.add('active');
   if (type === '確定') document.getElementById('btn-kakutei').classList.add('active');
   if (type === 'カレンダー') document.getElementById('btn-calendar').classList.add('active');
+  if (type === '週別') document.getElementById('btn-week').classList.add('active');
+  if (type === '曜日別') document.getElementById('btn-weekday').classList.add('active');
 
   // 表示テキスト切り替え
   const modeText = {
     '速報': '現在：速報版表示中',
     '確定': '現在：公式版表示中',
-    'カレンダー': '現在：カレンダー表示中'
+    'カレンダー': '現在：カレンダー表示中',
+    '週別': '現在：週別グラフ表示中',
+    '曜日別': '現在：曜日別グラフ表示中'
   };
   document.getElementById('currentMode').textContent = modeText[type];
 
@@ -23,7 +27,20 @@ function changeMode(type) {
 function loadData(type) {
   const chartArea = document.getElementById("visitor-chart");
   const desc = document.querySelector('.chart-description');
-  
+  const barArea = document.getElementById('bar-charts');
+  if (barArea) barArea.style.display = 'none';
+
+  if (type === '週別' || type === '曜日別') {
+    chartArea.innerHTML = '';
+    if (desc) desc.style.display = "none";
+    fetch('visitors速報.json')
+      .then(response => response.json())
+      .then(data => {
+        showBarCharts(data, type);
+      });
+    return;
+  }
+
   // カレンダー以外の時はカレンダーを消してグラフ用canvasを用意
   if (type !== 'カレンダー') {
     chartArea.innerHTML = '';
@@ -32,6 +49,7 @@ function loadData(type) {
     chartArea.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
     createChartCanvas();
     if (desc) desc.style.display = "";
+    if (barArea) barArea.style.display = 'none';
   }
 
   if (type === 'カレンダー') {
@@ -39,6 +57,7 @@ function loadData(type) {
     chartArea.style.border = "none";
     chartArea.style.boxShadow = "none";
     if (desc) desc.style.display = "none";
+    if (barArea) barArea.style.display = 'none';
 
     // 速報版のデータで上部の累計・関係者数・最終更新・進捗バーを更新
     fetch('visitors速報.json')
@@ -141,6 +160,8 @@ function showCalendarTable() {
         let dateColor = '#000'; // デフォルト（平日）
         if (day === 0 || isHoliday) { // 日曜日または祝日
           dateColor = '#e53935'; // 赤色
+        } else if (day === 6) {
+          dateColor = '#1976d2'; // 土曜は青色
         }
 
         // 月表示がある場合は日付の中央揃えを維持するため、flexで左側に月、中央に日を配置
@@ -160,7 +181,7 @@ function showCalendarTable() {
           calendar[week][day] = `
             ${dateLabel}
             <div style="font-size:1.5em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
-            <div style="font-size:0.8em;color:#888;">うち関係者数 ${d.staff.toLocaleString()}</div>
+            <div style="font-size:0.8em;color:#555;">うち関係者数 ${d.staff.toLocaleString()}</div>
           `;
           return true; // someでループ終了
         }
@@ -174,7 +195,7 @@ function showCalendarTable() {
         calendar[week][day] = `
           ${dateLabel}
           <div style="font-size:1.3em;font-weight:bold;color:#1976d2;line-height:1.2;">${d.count.toLocaleString()}</div>
-          <div style="font-size:0.8em;color:#888;">うち関係者数 ${d.staff.toLocaleString()}</div>
+          <div style="font-size:0.8em;color:#555;">うち関係者数 ${d.staff.toLocaleString()}</div>
         `;
         return false;
       });
@@ -191,7 +212,7 @@ function showCalendarTable() {
                 <th style="border:1px solid #ccc;padding:6px;">水</th>
                 <th style="border:1px solid #ccc;padding:6px;">木</th>
                 <th style="border:1px solid #ccc;padding:6px;">金</th>
-                <th style="border:1px solid #ccc;padding:6px;">土</th>
+                <th style="border:1px solid #ccc;padding:6px;color:#1976d2;">土</th>
               </tr>
             </thead>
             <tbody>
@@ -262,8 +283,8 @@ function updateDisplay(data) {
           backgroundColor: 'rgba(66, 165, 245, 0.2)',
           borderColor: '#42a5f5',
           tension: 0.3,
-          pointRadius: 0, // ★ 点を非表示に
-          pointHoverRadius: 0 // ★ ホバー時も点を非表示
+          pointRadius: 0,
+          pointHoverRadius: 0
         },
         {
           label: 'うち関係者数',
@@ -273,8 +294,8 @@ function updateDisplay(data) {
           backgroundColor: 'rgba(239, 83, 80, 0.1)',
           borderDash: [5, 5],
           tension: 0.3,
-          pointRadius: 0, // ★ 点を非表示に
-          pointHoverRadius: 0 // ★ ホバー時も点を非表示
+          pointRadius: 0,
+          pointHoverRadius: 0
         }
       ]
     },
@@ -292,10 +313,84 @@ function updateDisplay(data) {
   });
 }
 
-function createChartCanvas() {
-  const canvas = document.createElement("canvas");
-  document.getElementById("visitor-chart").appendChild(canvas);
-  return canvas;
+// 週別・曜日別グラフ描画
+function showBarCharts(data, type) {
+  let barArea = document.getElementById('bar-charts');
+  if (!barArea) {
+    barArea = document.createElement('div');
+    barArea.id = 'bar-charts';
+    barArea.style = 'max-width:700px;margin:30px auto;';
+    document.getElementById('visitor-chart').after(barArea);
+  }
+  barArea.style.display = '';
+  barArea.innerHTML = '';
+
+  if (type === '週別') {
+    // 週別集計
+    const weekMap = new Map();
+    data.dailyVisitors.forEach(d => {
+      const date = new Date(`2025-${d.date}`);
+      const firstDay = new Date(date.getFullYear(), 0, 1);
+      const week = Math.floor(((date - firstDay) / 86400000 + firstDay.getDay()) / 7) + 1;
+      weekMap.set(week, (weekMap.get(week) || 0) + d.count);
+    });
+    const weekLabels = Array.from(weekMap.keys()).map(w => `第${w}週`);
+    const weekData = Array.from(weekMap.values());
+
+    barArea.innerHTML = `
+      <h3 style="text-align:center;font-size:1.1em;">週別来場者数</h3>
+      <canvas id="week-bar"></canvas>
+    `;
+    new Chart(document.getElementById('week-bar').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: weekLabels,
+        datasets: [{
+          label: '週別来場者数',
+          data: weekData,
+          backgroundColor: '#42a5f5'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, ticks: { callback: v => v.toLocaleString() } } }
+      }
+    });
+  }
+
+  if (type === '曜日別') {
+    // 曜日別集計
+    const weekdayCounts = Array(7).fill(0);
+    data.dailyVisitors.forEach(d => {
+      const date = new Date(`2025-${d.date}`);
+      const day = date.getDay();
+      weekdayCounts[day] += d.count;
+    });
+    const weekdayLabels = ['日', '月', '火', '水', '木', '金', '土'];
+    barArea.innerHTML = `
+      <h3 style="text-align:center;font-size:1.1em;">曜日別来場者数</h3>
+      <canvas id="weekday-bar"></canvas>
+    `;
+    new Chart(document.getElementById('weekday-bar').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: weekdayLabels,
+        datasets: [{
+          label: '曜日別来場者数',
+          data: weekdayCounts,
+          backgroundColor: [
+            '#e53935', '#90caf9', '#90caf9', '#90caf9', '#90caf9', '#90caf9', '#1976d2'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, ticks: { callback: v => v.toLocaleString() } } }
+      }
+    });
+  }
 }
 
 // 初期表示
