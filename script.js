@@ -32,11 +32,10 @@ function loadData(type) {
 
   if (type === '週別' || type === '曜日別') {
     chartArea.innerHTML = '';
-    // ▼ 速報版・公式版グラフと同じ背景・枠・余白にする
-    chartArea.style.background = "#f5f5f5";
-    chartArea.style.border = "1px solid #ddd";
-    chartArea.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
-    chartArea.style.padding = "20px";
+    chartArea.style.background = "none";
+    chartArea.style.border = "none";
+    chartArea.style.boxShadow = "none";
+    chartArea.style.padding = "0";
     if (desc) desc.style.display = "none";
     fetch('visitors速報.json')
       .then(response => response.json())
