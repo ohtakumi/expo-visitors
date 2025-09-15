@@ -371,9 +371,27 @@ function showBarCharts(data, type) {
       },
       options: {
         responsive: true,
-        plugins: { legend: { display: false } },
+        plugins: {
+          legend: { display: false },
+          // ★ 背景を白に
+          background: {
+            color: '#fff'
+          }
+        },
+        layout: { backgroundColor: '#fff' }, // 旧バージョン用
         scales: { y: { beginAtZero: true, ticks: { callback: v => v.toLocaleString() } } }
-      }
+      },
+      plugins: [{
+        // Chart.js v3/v4用: 背景を白にするカスタムプラグイン
+        beforeDraw: (chart) => {
+          const ctx = chart.ctx;
+          ctx.save();
+          ctx.globalCompositeOperation = 'destination-over';
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(0, 0, chart.width, chart.height);
+          ctx.restore();
+        }
+      }]
     });
   }
 
@@ -401,9 +419,27 @@ function showBarCharts(data, type) {
       },
       options: {
         responsive: true,
-        plugins: { legend: { display: false } },
+        plugins: {
+          legend: { display: false },
+          // ★ 背景を白に
+          background: {
+            color: '#fff'
+          }
+        },
+        layout: { backgroundColor: '#fff' }, // 旧バージョン用
         scales: { y: { beginAtZero: true, ticks: { callback: v => v.toLocaleString() } } }
-      }
+      },
+      plugins: [{
+        // Chart.js v3/v4用: 背景を白にするカスタムプラグイン
+        beforeDraw: (chart) => {
+          const ctx = chart.ctx;
+          ctx.save();
+          ctx.globalCompositeOperation = 'destination-over';
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(0, 0, chart.width, chart.height);
+          ctx.restore();
+        }
+      }]
     });
   }
 }
