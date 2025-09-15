@@ -343,6 +343,13 @@ function showBarCharts(data, type) {
     document.getElementById('visitor-chart').after(barArea);
   }
   barArea.style.display = '';
+  // 速報・公式グラフと同じ背景・枠・影
+  barArea.style.background = "#f5f5f5";
+  barArea.style.border = "1px solid #ddd";
+  barArea.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+  barArea.style.padding = "20px";
+  barArea.style.maxWidth = "700px";
+  barArea.style.margin = "30px auto";
   barArea.innerHTML = '';
 
   if (type === '週別') {
@@ -373,16 +380,12 @@ function showBarCharts(data, type) {
         responsive: true,
         plugins: {
           legend: { display: false },
-          // ★ 背景を白に
-          background: {
-            color: '#fff'
-          }
+          background: { color: '#fff' }
         },
-        layout: { backgroundColor: '#fff' }, // 旧バージョン用
+        layout: { backgroundColor: '#fff' },
         scales: { y: { beginAtZero: true, ticks: { callback: v => v.toLocaleString() } } }
       },
       plugins: [{
-        // Chart.js v3/v4用: 背景を白にするカスタムプラグイン
         beforeDraw: (chart) => {
           const ctx = chart.ctx;
           ctx.save();
@@ -421,16 +424,12 @@ function showBarCharts(data, type) {
         responsive: true,
         plugins: {
           legend: { display: false },
-          // ★ 背景を白に
-          background: {
-            color: '#fff'
-          }
+          background: { color: '#fff' }
         },
-        layout: { backgroundColor: '#fff' }, // 旧バージョン用
+        layout: { backgroundColor: '#fff' },
         scales: { y: { beginAtZero: true, ticks: { callback: v => v.toLocaleString() } } }
       },
       plugins: [{
-        // Chart.js v3/v4用: 背景を白にするカスタムプラグイン
         beforeDraw: (chart) => {
           const ctx = chart.ctx;
           ctx.save();
