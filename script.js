@@ -40,6 +40,21 @@ function loadData(type) {
     fetch('visitors速報.json')
       .then(response => response.json())
       .then(data => {
+        // 速報版の累計・関係者数・最終更新・進捗バーを更新
+        const daily = data.dailyVisitors;
+        const total = daily.reduce((sum, d) => sum + d.count, 0);
+        const staff = daily.reduce((sum, d) => sum + d.staff, 0);
+        const updated = new Date(data.lastUpdated);
+        const progress = (((total - staff) / GOAL) * 100).toFixed(2);
+
+        document.getElementById('visitor-count').textContent = total.toLocaleString() + "人";
+        document.getElementById('staff-count').textContent = "うち関係者数: " + staff.toLocaleString() + "人";
+        document.getElementById('last-updated').textContent = "最終更新: " + updated.toLocaleString();
+        const progressFill = document.getElementById('progress-fill');
+        if (progressFill) {
+          progressFill.style.width = progress + "%";
+          progressFill.textContent = progress + "%";
+        }
         showBarCharts(data, type);
       });
     return;
