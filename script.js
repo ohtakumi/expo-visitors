@@ -31,11 +31,12 @@ function loadData(type) {
   if (barArea) barArea.style.display = 'none';
 
   if (type === '週別' || type === '曜日別') {
-    // ▼ ここで写真やグラフも含めて完全に消す
+    // ▼ 写真やグラフも含めて完全に消す
     chartArea.innerHTML = '';
     chartArea.style.background = "none";
     chartArea.style.border = "none";
     chartArea.style.boxShadow = "none";
+    chartArea.style.padding = "0"; // 余白も消す
     if (desc) desc.style.display = "none";
     fetch('visitors速報.json')
       .then(response => response.json())
@@ -338,22 +339,17 @@ function showBarCharts(data, type) {
       const week = Math.floor(((date - firstDay) / 86400000 + firstDay.getDay()) / 7) + 1;
       weekMap.set(week, (weekMap.get(week) || 0) + d.count);
     });
-    // 週番号を昇順で取得
     const weekNumbers = Array.from(weekMap.keys()).sort((a, b) => a - b);
-    // 連番で「第1週」から表示
     const weekLabels = weekNumbers.map((_, i) => `第${i + 1}週`);
     const weekData = weekNumbers.map(week => weekMap.get(week));
 
-    barArea.innerHTML = `
-      <h3 style="text-align:center;font-size:1.1em;">週別来場者数</h3>
-      <canvas id="week-bar"></canvas>
-    `;
+    barArea.innerHTML = `<canvas id="week-bar"></canvas>`;
     new Chart(document.getElementById('week-bar').getContext('2d'), {
       type: 'bar',
       data: {
         labels: weekLabels,
         datasets: [{
-          label: '週別来場者数',
+          label: '',
           data: weekData,
           backgroundColor: '#42a5f5'
         }]
@@ -375,16 +371,13 @@ function showBarCharts(data, type) {
       weekdayCounts[day] += d.count;
     });
     const weekdayLabels = ['日', '月', '火', '水', '木', '金', '土'];
-    barArea.innerHTML = `
-      <h3 style="text-align:center;font-size:1.1em;">曜日別来場者数</h3>
-      <canvas id="weekday-bar"></canvas>
-    `;
+    barArea.innerHTML = `<canvas id="weekday-bar"></canvas>`;
     new Chart(document.getElementById('weekday-bar').getContext('2d'), {
       type: 'bar',
       data: {
         labels: weekdayLabels,
         datasets: [{
-          label: '曜日別来場者数',
+          label: '',
           data: weekdayCounts,
           backgroundColor: [
             '#e53935', '#90caf9', '#90caf9', '#90caf9', '#90caf9', '#90caf9', '#1976d2'
