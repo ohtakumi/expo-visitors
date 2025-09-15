@@ -379,22 +379,10 @@ function showBarCharts(data, type) {
       options: {
         responsive: true,
         plugins: {
-          legend: { display: false },
-          background: { color: '#fff' }
+          legend: { display: false }
         },
-        layout: { backgroundColor: '#fff' },
         scales: { y: { beginAtZero: true, ticks: { callback: v => v.toLocaleString() } } }
-      },
-      plugins: [{
-        beforeDraw: (chart) => {
-          const ctx = chart.ctx;
-          ctx.save();
-          ctx.globalCompositeOperation = 'destination-over';
-          ctx.fillStyle = '#fff';
-          ctx.fillRect(0, 0, chart.width, chart.height);
-          ctx.restore();
-        }
-      }]
+      }
     });
   }
 
@@ -423,22 +411,10 @@ function showBarCharts(data, type) {
       options: {
         responsive: true,
         plugins: {
-          legend: { display: false },
-          background: { color: '#fff' }
+          legend: { display: false }
         },
-        layout: { backgroundColor: '#fff' },
         scales: { y: { beginAtZero: true, ticks: { callback: v => v.toLocaleString() } } }
-      },
-      plugins: [{
-        beforeDraw: (chart) => {
-          const ctx = chart.ctx;
-          ctx.save();
-          ctx.globalCompositeOperation = 'destination-over';
-          ctx.fillStyle = '#fff';
-          ctx.fillRect(0, 0, chart.width, chart.height);
-          ctx.restore();
-        }
-      }]
+      }
     });
   }
 }
