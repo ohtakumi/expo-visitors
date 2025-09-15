@@ -31,12 +31,11 @@ function loadData(type) {
   if (barArea) barArea.style.display = 'none';
 
   if (type === '週別' || type === '曜日別') {
-    // ▼ 写真やグラフも含めて完全に消す
     chartArea.innerHTML = '';
     chartArea.style.background = "none";
     chartArea.style.border = "none";
     chartArea.style.boxShadow = "none";
-    chartArea.style.padding = "0"; // 余白も消す
+    chartArea.style.padding = "0";
     if (desc) desc.style.display = "none";
     fetch('visitors速報.json')
       .then(response => response.json())
@@ -46,12 +45,13 @@ function loadData(type) {
     return;
   }
 
-  // カレンダー以外の時はカレンダーを消してグラフ用canvasを用意
+  // ▼ 速報版・公式版に戻った時にグラフ用のスタイル・余白を復元
   if (type !== 'カレンダー') {
     chartArea.innerHTML = '';
     chartArea.style.background = "#f5f5f5";
     chartArea.style.border = "1px solid #ddd";
     chartArea.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+    chartArea.style.padding = "20px";
     createChartCanvas();
     if (desc) desc.style.display = "";
     if (barArea) barArea.style.display = 'none';
@@ -61,10 +61,10 @@ function loadData(type) {
     chartArea.style.background = "none";
     chartArea.style.border = "none";
     chartArea.style.boxShadow = "none";
+    chartArea.style.padding = "0";
     if (desc) desc.style.display = "none";
     if (barArea) barArea.style.display = 'none';
 
-    // 速報版のデータで上部の累計・関係者数・最終更新・進捗バーを更新
     fetch('visitors速報.json')
       .then(response => response.json())
       .then(data => {
