@@ -1,4 +1,5 @@
 const GOAL = 28200000;
+const MILESTONE = 22000000; // 黒字化ライン
 let chartInstance = null;
 
 function changeMode(type) {
@@ -45,16 +46,11 @@ function loadData(type) {
         const total = daily.reduce((sum, d) => sum + d.count, 0);
         const staff = daily.reduce((sum, d) => sum + d.staff, 0);
         const updated = new Date(data.lastUpdated);
-        const progress = (((total - staff) / GOAL) * 100).toFixed(2);
 
         document.getElementById('visitor-count').textContent = total.toLocaleString() + "人";
         document.getElementById('staff-count').textContent = "うち関係者数: " + staff.toLocaleString() + "人";
         document.getElementById('last-updated').textContent = "最終更新: " + updated.toLocaleString();
-        const progressFill = document.getElementById('progress-fill');
-        if (progressFill) {
-          progressFill.style.width = progress + "%";
-          progressFill.textContent = progress + "%";
-        }
+        updateProgressBar(total, staff);
         showBarCharts(data, type);
       });
     return;
@@ -87,16 +83,11 @@ function loadData(type) {
         const total = daily.reduce((sum, d) => sum + d.count, 0);
         const staff = daily.reduce((sum, d) => sum + d.staff, 0);
         const updated = new Date(data.lastUpdated);
-        const progress = (((total - staff) / GOAL) * 100).toFixed(2);
 
         document.getElementById('visitor-count').textContent = total.toLocaleString() + "人";
         document.getElementById('staff-count').textContent = "うち関係者数: " + staff.toLocaleString() + "人";
         document.getElementById('last-updated').textContent = "最終更新: " + updated.toLocaleString();
-        const progressFill = document.getElementById('progress-fill');
-        if (progressFill) {
-          progressFill.style.width = progress + "%";
-          progressFill.textContent = progress + "%";
-        }
+        updateProgressBar(total, staff);
         showCalendarTable();
       });
     return;
@@ -111,6 +102,25 @@ function loadData(type) {
     .catch(error => {
       console.error('データ読み込みエラー:', error);
     });
+}
+
+function updateProgressBar(total, staff) {
+  const progress = (((total - staff) / GOAL) * 100).toFixed(2);
+  const progressFill = document.getElementById("progress-fill");
+  progressFill.style.width = `${progress}%`;
+  progressFill.textContent = `${progress}%`;
+  updateMilestoneLine();
+}
+
+function updateMilestoneLine() {
+  const bar = document.querySelector('.progress-bar');
+  const line = document.getElementById('milestone-line');
+  const label = document.getElementById('milestone-label');
+  if (!bar || !line || !label) return;
+
+  const percent = (MILESTONE / GOAL) * 100;
+  line.style.left = `calc(${percent}% - 1px)`;
+  label.style.left = `calc(${percent}% - 28px)`;
 }
 
 function createChartCanvas() {
@@ -277,11 +287,7 @@ function updateDisplay(data) {
   document.getElementById("staff-count").textContent = `うち関係者数: ${staff.toLocaleString()}人`;
   document.getElementById("last-updated").textContent = `最終更新: ${updated.toLocaleString()}`;
 
-  // 進捗バー
-  const progress = (((total - staff ) / GOAL) * 100).toFixed(2);
-  const progressFill = document.getElementById("progress-fill");
-  progressFill.style.width = `${progress}%`;
-  progressFill.textContent = `${progress}%`;
+  updateProgressBar(total, staff);
 
   // グラフデータ
   const labels = data.dailyVisitors.map(d => d.date);
@@ -343,7 +349,6 @@ function showBarCharts(data, type) {
     document.getElementById('visitor-chart').after(barArea);
   }
   barArea.style.display = '';
-  // 速報・公式グラフと同じ背景・枠・影
   barArea.style.background = "#f5f5f5";
   barArea.style.border = "1px solid #ddd";
   barArea.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
