@@ -31,7 +31,11 @@ function loadData(type) {
   if (barArea) barArea.style.display = 'none';
 
   if (type === '週別' || type === '曜日別') {
+    // ▼ ここで写真やグラフも含めて完全に消す
     chartArea.innerHTML = '';
+    chartArea.style.background = "#fff"; // ★ カレンダーと同じ白背景に
+    chartArea.style.border = "none";
+    chartArea.style.boxShadow = "none";
     if (desc) desc.style.display = "none";
     fetch('visitors速報.json')
       .then(response => response.json())
@@ -334,8 +338,11 @@ function showBarCharts(data, type) {
       const week = Math.floor(((date - firstDay) / 86400000 + firstDay.getDay()) / 7) + 1;
       weekMap.set(week, (weekMap.get(week) || 0) + d.count);
     });
-    const weekLabels = Array.from(weekMap.keys()).map(w => `第${w}週`);
-    const weekData = Array.from(weekMap.values());
+    // 週番号を昇順で取得
+    const weekNumbers = Array.from(weekMap.keys()).sort((a, b) => a - b);
+    // 連番で「第1週」から表示
+    const weekLabels = weekNumbers.map((_, i) => `第${i + 1}週`);
+    const weekData = weekNumbers.map(week => weekMap.get(week));
 
     barArea.innerHTML = `
       <h3 style="text-align:center;font-size:1.1em;">週別来場者数</h3>
