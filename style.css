@@ -317,3 +317,18 @@ footer a:hover {
     height: 4px;
   }
 }
+
+#bar-charts {
+  /* JSでwidth/max-widthを同期するが、保険として同値を指定 */
+  width: 100%;
+  max-width: 600px;
+}
+
+@media (max-width: 768px) {
+  #bar-charts {
+    max-width: 90%;
+    padding: 15px;            /* visitor-chart と同等の調整 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 0 auto 20px auto;
+  }
+}
