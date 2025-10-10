@@ -345,10 +345,9 @@ function showBarCharts(data, type) {
   if (!barArea) {
     barArea = document.createElement('div');
     barArea.id = 'bar-charts';
+    barArea.style = 'max-width:700px;margin:30px auto;';
     document.getElementById('visitor-chart').after(barArea);
   }
-
-  // 見た目を visitor-chart と揃える
   barArea.style.display = '';
   barArea.style.background = "#f5f5f5";
   barArea.style.border = "1px solid #ddd";
@@ -360,7 +359,7 @@ function showBarCharts(data, type) {
   barArea.innerHTML = '';
 
   if (type === '週別') {
-    // 週別集計（表示は第1週からの連番）
+    // 週別集計
     const weekMap = new Map();
     data.dailyVisitors.forEach(d => {
       const date = new Date(`2025-${d.date}`);
@@ -370,7 +369,7 @@ function showBarCharts(data, type) {
     });
     const weekNumbers = Array.from(weekMap.keys()).sort((a, b) => a - b);
     const weekLabels = weekNumbers.map((_, i) => `第${i + 1}週`);
-    const weekData = weekNumbers.map(w => weekMap.get(w));
+    const weekData = weekNumbers.map(week => weekMap.get(week));
 
     barArea.innerHTML = `<canvas id="week-bar"></canvas>`;
     new Chart(document.getElementById('week-bar').getContext('2d'), {
@@ -385,7 +384,9 @@ function showBarCharts(data, type) {
       },
       options: {
         responsive: true,
-        plugins: { legend: { display: false } },
+        plugins: {
+          legend: { display: false }
+        },
         scales: { y: { beginAtZero: true, ticks: { callback: v => v.toLocaleString() } } }
       }
     });
@@ -400,7 +401,6 @@ function showBarCharts(data, type) {
       weekdayCounts[day] += d.count;
     });
     const weekdayLabels = ['日', '月', '火', '水', '木', '金', '土'];
-
     barArea.innerHTML = `<canvas id="weekday-bar"></canvas>`;
     new Chart(document.getElementById('weekday-bar').getContext('2d'), {
       type: 'bar',
@@ -416,7 +416,9 @@ function showBarCharts(data, type) {
       },
       options: {
         responsive: true,
-        plugins: { legend: { display: false } },
+        plugins: {
+          legend: { display: false }
+        },
         scales: { y: { beginAtZero: true, ticks: { callback: v => v.toLocaleString() } } }
       }
     });
