@@ -7,6 +7,9 @@
 
 > 🌐 公開ページ: [https://expo-visitors-counter.com](https://expo-visitors-counter.com)
 
+## お知らせ
+- 2025年10月13日より公開を停止しています。再開時は本READMEで告知します。
+
 ## 主な機能
 
 - **速報版・公式版データの切り替え表示**
